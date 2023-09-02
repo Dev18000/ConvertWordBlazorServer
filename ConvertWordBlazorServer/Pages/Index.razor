@@ -12,12 +12,18 @@
 
     public void GetWordConvertedClick()
     {
-        char[] stringArray = WordInsertByUser.ToCharArray();
-        Array.Reverse(stringArray);
-        string reversedStr = new string(stringArray);
+        if (!string.IsNullOrEmpty(WordInsertByUser))
+        {
+            char[] stringArray = WordInsertByUser.ToCharArray();
+            Array.Reverse(stringArray);
+            string reversedStr = new string(stringArray);
 
-        WordInverseDisplayForUser = reversedStr;
-
+            WordInverseDisplayForUser = reversedStr;
+        }
+        else
+        {
+            WordInverseDisplayForUser = "";
+        }
         StateHasChanged();
     }
 }
@@ -28,9 +34,13 @@
     }
 
     .btnConvert {
+        font-family: Verdana;
         color: ghostwhite;
         background-color: green;
+        outline:none;
         border: none;
+        text-decoration:none;
+        cursor: pointer;
         height: 1%;
         margin: auto;
     }
