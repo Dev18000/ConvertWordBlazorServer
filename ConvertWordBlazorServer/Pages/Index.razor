@@ -1,0 +1,43 @@
+﻿@page "/"
+
+<div class="pannelUser">
+    <textarea class="textArea" @bind="WordInsertByUser" />
+    <button class="btnConvert" @onclick="GetWordConvertedClick">Конвертировать</button>
+    <textarea class="textArea" @bind="WordInverseDisplayForUser" />
+</div>
+
+@code {
+    public string WordInsertByUser { get; set; }
+    public string WordInverseDisplayForUser { get; set; }
+
+    public void GetWordConvertedClick()
+    {
+        char[] stringArray = WordInsertByUser.ToCharArray();
+        Array.Reverse(stringArray);
+        string reversedStr = new string(stringArray);
+
+        WordInverseDisplayForUser = reversedStr;
+
+        StateHasChanged();
+    }
+}
+
+<style>
+    .pannelUser {
+        display: flex;
+    }
+
+    .btnConvert {
+        color: ghostwhite;
+        background-color: green;
+        border: none;
+        height: 1%;
+        margin: auto;
+    }
+
+    .textArea {
+        margin: 0 2% 0 2%;
+        width: 50%;
+        height: 20em;
+    }
+</style>
