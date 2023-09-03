@@ -8,8 +8,44 @@
 
 @code {
     public string WordInsertByUser { get; set; }
-    public string WordInverseDisplayForUser { get; set; }
+    public string WordInverseDisplayForUser { get; set; } = "";
+    public List<string> tempString { get; set; } = new();
 
+    protected override void OnInitialized()
+    {
+        getDataFromFile();
+    }
+
+    public void getDataFromFile()
+    {
+        var path = "C:/text-data.txt"; //путь к файлу, который уже существует
+
+        try
+        {
+            // считывает файл
+            using (StreamReader streamReaderForRead = File.OpenText(path))
+            {
+                if (streamReaderForRead != null)
+                {
+                    string streamTemps = "";
+                    while ((streamTemps = streamReaderForRead.ReadLine()) != null)
+                    {
+                        char[] stringArray = streamTemps.ToCharArray();
+                        Array.Reverse(stringArray);
+                        string reversedStr = new string(stringArray);
+
+                        tempString.Add($"{streamTemps} -> {reversedStr}");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            var msg = ex.Message;
+        }
+    }
+
+    //если пользователь ничего не ввел, то выводит данные с файла
     public void GetWordConvertedClick()
     {
         if (!string.IsNullOrEmpty(WordInsertByUser))
@@ -22,9 +58,15 @@
         }
         else
         {
-            WordInverseDisplayForUser = "";
+            WordInverseDisplayForUser = ""; //очищаю, иначе сохраняет введенные пользователем данные, если просто удалить без F5
+
+            foreach (var stringOne in tempString)
+            {
+                WordInverseDisplayForUser += $"{stringOne} \n";
+            }
         }
         StateHasChanged();
+
     }
 }
 
@@ -37,9 +79,9 @@
         font-family: Verdana;
         color: ghostwhite;
         background-color: green;
-        outline:none;
+        outline: none;
         border: none;
-        text-decoration:none;
+        text-decoration: none;
         cursor: pointer;
         height: 1%;
         margin: auto;
